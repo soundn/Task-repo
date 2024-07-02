@@ -9,9 +9,25 @@ spec:
     repoURL: https://prometheus-community.github.io/helm-charts
     targetRevision: 15.10.1
     chart: prometheus
+    helm:
+      values: |
+        server:
+          persistentVolume:
+            storageClass: "local-storage"
+          service:
+            type: NodePort
+            nodePort: 30090
+        alertmanager:
+          persistentVolume:
+            storageClass: "local-storage"
+        pushgateway:
+          persistentVolume:
+            storageClass: "local-storage"
+        nodeExporter:
+          hostRootfs: false
   destination:
     server: https://kubernetes.default.svc
-    namespace: default
+    namespace: argocd
   syncPolicy:
     automated:
       prune: true
